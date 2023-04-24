@@ -1,0 +1,39 @@
+# Copyright (C) 2023 Mitsubishi Electric Research Laboratories (MERL)
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+data:
+ train_batch_size: 10
+ train_chunk_sec: 3.2
+ eval_batch_size: 10
+ num_workers: 4
+
+model:
+ # Mask-inference model
+ n_sources: 7
+ n_layers: 4
+ hidden_dim: 600
+ n_freq_bins: 257
+ dropout: 0.3
+ bidirectional: true
+
+ # Hyperbolic-related
+ hyperbolic_dim: 2
+ hyperbolic_train: false
+ hyperbolic_k: 1.0
+
+training:
+ epochs: 300
+ num_gpu: 1
+ learning_rate: 0.001
+ seed: 2
+
+features:
+ window_length: 512  # STFT frame-size in samples
+ fft_size: 512  # FFT size in samples
+ hop_length: 256  # STFT hop-size in samples
+ normalize: true  # normalize stft, 'window' divides window by its sum, 'default' divides by sqrt of window size, None uses no normalization
+
+loss:
+ loss_type: mask # type of loss, choices = ['mask', 'waveform', 'spectrogram']
+ mag_weights: true # whether or not weighting the bins based off their spectrogram magnitude (only for loss_type==mask)
